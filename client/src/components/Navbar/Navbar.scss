@@ -1,6 +1,7 @@
 .navbar {
   height: 80px;
-  margin: -3px;
+  background-color: white;
+
   .wrapper {
     padding: 10px 30px;
     display: flex;
@@ -11,6 +12,18 @@
       display: flex;
       align-items: center;
       font-size: 18px;
+
+      height: 30px;
+      width: 80px;
+      justify-content: center;
+      padding: 5px;
+      border-radius: 10px;
+
+      &:hover {
+        background-color: black;
+        color: white;
+        transition: all 0.2s ease-in;
+      }
     }
     .left {
       display: flex;
