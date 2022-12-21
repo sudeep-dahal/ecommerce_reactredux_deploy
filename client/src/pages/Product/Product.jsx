@@ -10,12 +10,12 @@ import { addToCart } from "../../redux/cartReducer";
 
 const Product = () => {
   const id = useParams().id;
+
   const [selectedImg, setSelectedImg] = useState("img");
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
 
   const { data, loading, error } = useFetch(`/products/${id}?populate=*`);
-  console.log(data);
 
   return (
     <>
@@ -79,7 +79,7 @@ const Product = () => {
                 onClick={() =>
                   dispatch(
                     addToCart({
-                      id: data.attributes.id,
+                      id: data.id,
                       title: data.attributes.title,
                       desc: data.attributes.desc,
                       price: data.attributes.price,
