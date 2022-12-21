@@ -6,9 +6,10 @@ import "./Slider.scss";
 const Slider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const data = [
-    "https://images.pexels.com/photos/1549200/pexels-photo-1549200.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    "https://images.pexels.com/photos/949670/pexels-photo-949670.jpeg?auto=compress&cs=tinysrgb&w=1600",
-    "https://images.pexels.com/photos/837140/pexels-photo-837140.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "https://cdn.pixabay.com/photo/2017/07/24/12/43/schrecksee-2534484__340.jpg",
+    "https://kaboompics.com/cache/8/1/f/f/2/81ff2349a2507d54bedd46fbe7c7f34d3c8c4b42.jpeg",
+    "https://kaboompics.com/cache/a/f/7/e/a/af7ea39b4313d72a7299c90cf747539e29352d74.jpeg",
+    "https://media.istockphoto.com/id/1341288649/photo/75mpix-panorama-of-beautiful-mount-ama-dablam-in-himalayas-nepal.jpg?b=1&s=170667a&w=0&k=20&c=4NKz9veFo5-po92H0ZQ1FGoxMec7DaBPsaj9dZvp9rE=",
   ];
 
   const prevSlide = () => {

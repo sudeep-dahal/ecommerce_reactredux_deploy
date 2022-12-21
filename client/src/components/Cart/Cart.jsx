@@ -1,51 +1,68 @@
 import React from "react";
 import "./Cart.scss";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import { useDispatch, useSelector } from "react-redux";
+import { removeItem } from "../../redux/cartReducer";
+import { resetCart } from "../../redux/cartReducer";
+import { loadStripe } from "@stripe/stripe-js";
+import { makeRequest } from "../../makeRequest.js";
 
 const Cart = () => {
-  const data = [
-    {
-      id: 1,
-      img: "https://images.pexels.com/photos/1549200/pexels-photo-1549200.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      img2: "https://images.pexels.com/photos/837140/pexels-photo-837140.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      title: "T-shirt babbal luga",
-      desc: "T-shirt babbal luga",
-      isNew: true,
-      oldPrice: 950,
-      price: 500,
-    },
+  const products = useSelector((state) => state.cart.products);
+  const dispatch = useDispatch();
 
-    {
-      id: 2,
-      img: "https://images.pexels.com/photos/1549200/pexels-photo-1549200.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      img2: "https://images.pexels.com/photos/837140/pexels-photo-837140.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      title: "T-shirt babbal luga",
-      desc: "T-shirt babbal luga",
-      isNew: false,
-      oldPrice: 950,
-      price: 500,
-    },
-  ];
+  const totalPrice = () => {
+    let total = 0;
+    products.forEach((item) => (total = total + item.quantity * item.price));
+    return total.toFixed(2);
+  };
+
+  const stripePromise = loadStripe(
+    "pk_test_51MCcqfGatRGyeOfAEj2GhtyOFgvRGeKdaZ3j7HMSGtotxHDxE3uUShHzUlHK6HdCLd15LqFUenCqNyQ9OoWbF6rB00EJcROJ81"
+  );
+  const handlePayment = async () => {
+    try {
+      const stripe = await stripePromise;
+
+      const res = await makeRequest.post("/orders", {
+        products,
+      });
+
+      await stripe.redirectToCheckout({
+        sessionId: res.data.stripeSession.id,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div className="cart">
-      <h1>Products on your Cart</h1>
-      {data?.map((item) => (
+      <h1>Products on Cart</h1>
+      {products?.map((item) => (
         <div className="item" key={item.id}>
-          <img src={item.img} alt="" />
+          <img src={process.env.REACT_APP_UPLOAD_URL + item.img} alt="" />
           <div className="details">
             <h1>{item.title}</h1>
             <p>{item.desc?.substring(0, 100)}</p>
-            <div className="price">1 x Rs {item.price}</div>
+            <div className="price">
+              {item.quantity} x Rs {item.price}
+            </div>
           </div>
-          <DeleteOutlinedIcon className="delete" />
+          <DeleteOutlinedIcon
+            className="delete"
+            onClick={() => dispatch(removeItem(item.id))}
+          />
         </div>
       ))}
       <div className="total">
-        <span>SUBTOTAL</span>
-        <span>Rs 768</span>
+        <span>SUB TOTAL</span>
+        <span>Rs {totalPrice()}</span>
       </div>
-      <button>PROCEED TO CHECKOUT</button>
-      <span className="reset">Reset Cart</span>
+      <button onClick={handlePayment}>PROCEED TO CHECKOUT</button>
+      <span className="reset" onClick={() => dispatch(resetCart())}>
+        Reset Cart
+      </span>
     </div>
   );
 };

@@ -5,10 +5,12 @@ import Home from "./pages/Home/Home";
 import Product from "./pages/Product/Product";
 import Products from "./pages/Products/Products";
 import "./app.scss";
+import ScrollToTop from "./components/ScrollToTop";
 
 const Layout = () => {
   return (
     <div className="app">
+      <ScrollToTop />
       <Navbar />
       <Outlet />
       <Footer />

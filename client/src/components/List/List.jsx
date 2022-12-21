@@ -1,51 +1,22 @@
 import React from "react";
+import useFetch from "../../hooks/useFetch";
 import Card from "../Card/Card";
 import "./List.scss";
 
-const List = () => {
-  const data = [
-    {
-      id: 1,
-      img: "https://images.pexels.com/photos/1549200/pexels-photo-1549200.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      img2: "https://images.pexels.com/photos/837140/pexels-photo-837140.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      title: "T-shirt babbal luga",
-      isNew: true,
-      oldPrice: 950,
-      price: 500,
-    },
-    {
-      id: 2,
-      img: "https://images.pexels.com/photos/1549200/pexels-photo-1549200.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      img2: "https://images.pexels.com/photos/837140/pexels-photo-837140.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      title: "T-shirt babbal luga",
-      isNew: false,
-      oldPrice: 950,
-      price: 500,
-    },
-    {
-      id: 3,
-      img: "https://images.pexels.com/photos/1549200/pexels-photo-1549200.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      img2: "https://images.pexels.com/photos/837140/pexels-photo-837140.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      title: "T-shirt babbal luga",
-      isNew: true,
-      oldPrice: 950,
-      price: 500,
-    },
-    {
-      id: 4,
-      img: "https://images.pexels.com/photos/1549200/pexels-photo-1549200.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      img2: "https://images.pexels.com/photos/837140/pexels-photo-837140.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      title: "T-shirt babbal luga",
-      isNew: false,
-      oldPrice: 950,
-      price: 500,
-    },
-  ];
+const List = ({ catId, subCats, maxPrice, sort }) => {
+  const { data, loading, error } = useFetch(
+    `/products?populate=*&[filters][categories][id]=${catId}${subCats.map(
+      (item) => `&[filters][sub_categories][id][$eq]=${item}]`
+    )}&[filters][price][$lte]=${maxPrice}&sort=price:${sort}`
+  );
+
   return (
     <div className="list">
-      {data?.map((item) => (
-        <Card item={item} key={item.id} />
-      ))}
+      {error
+        ? "Something went wrong!!"
+        : loading
+        ? "Loading"
+        : data?.map((item) => <Card item={item} key={item.id} />)}
     </div>
   );
 };

@@ -7,11 +7,11 @@ const Footer = () => {
       <div className="top">
         <div className="item">
           <h1>Categories</h1>
-          <span>Women</span>
-          <span>Men</span>
-          <span>Shoes</span>
-          <span>Accessories</span>
-          <span>New Arrivals</span>
+          <span>Greenery</span>
+          <span>Lakes</span>
+          <span>Plain</span>
+          <span>Mountains</span>
+          <span>Hills</span>
         </div>
         <div className="item">
           <h1>Links</h1>
@@ -42,7 +42,7 @@ const Footer = () => {
       </div>
       <div className="bottom">
         <div className="left">
-          <span className="logo">LUGA PASAL</span>
+          <span className="logo">TASBIR PASAL</span>
           <span className="copyright">
             © Copyright 2022. All Rights Reserved
           </span>

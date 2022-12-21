@@ -1,52 +1,16 @@
-import React from "react";
 import Card from "../Card/Card";
 import "./FeaturedProducts.scss";
-// import useFetch from "../../hooks/useFetch";
+import useFetch from "../../hooks/useFetch";
 
 const FeaturedProducts = ({ type }) => {
-  const data = [
-    {
-      id: 1,
-      img: "https://images.pexels.com/photos/1549200/pexels-photo-1549200.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      img2: "https://images.pexels.com/photos/837140/pexels-photo-837140.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      title: "T-shirt babbal luga",
-      isNew: true,
-      oldPrice: 950,
-      price: 500,
-    },
-    {
-      id: 2,
-      img: "https://images.pexels.com/photos/1549200/pexels-photo-1549200.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      img2: "https://images.pexels.com/photos/837140/pexels-photo-837140.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      title: "T-shirt babbal luga",
-      isNew: false,
-      oldPrice: 950,
-      price: 500,
-    },
-    {
-      id: 3,
-      img: "https://images.pexels.com/photos/1549200/pexels-photo-1549200.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      img2: "https://images.pexels.com/photos/837140/pexels-photo-837140.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      title: "T-shirt babbal luga",
-      isNew: true,
-      oldPrice: 950,
-      price: 500,
-    },
-    {
-      id: 4,
-      img: "https://images.pexels.com/photos/1549200/pexels-photo-1549200.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      img2: "https://images.pexels.com/photos/837140/pexels-photo-837140.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      title: "T-shirt babbal luga",
-      isNew: false,
-      oldPrice: 950,
-      price: 500,
-    },
-  ];
+  const { data, loading, error } = useFetch(
+    `/products?populate=*&[filters][type][$eq]=${type}`
+  );
 
   return (
     <div className="featuredProducts">
       <div className="top">
-        <h1>{type} products</h1>
+        <h1>{type} Tasbir's</h1>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum
@@ -56,9 +20,11 @@ const FeaturedProducts = ({ type }) => {
         </p>
       </div>
       <div className="bottom">
-        {data.map((item) => (
-          <Card item={item} key={item.id} />
-        ))}
+        {error
+          ? "Something went wrong!!"
+          : loading
+          ? "Loading"
+          : data?.map((item) => <Card item={item} key={item.id} />)}
       </div>
     </div>
   );
